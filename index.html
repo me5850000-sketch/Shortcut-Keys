@@ -60,7 +60,7 @@ body::after {
   flex-direction: row;
   align-items: center;
   padding: 12px 20px;
-  animation: fadeUp 0.6s 0.3s ease both;
+  animation: fadeUp 0.3s 0.05s ease both;
   background: linear-gradient(135deg, #1c4587 0%, #1a3d7a 60%, #163268 100%);
   box-shadow: 0 4px 24px rgba(0,0,0,0.3);
   overflow: hidden;
@@ -275,6 +275,7 @@ body::after {
   z-index:5;
 }
 .k.lit .top,.k.lit .main,.k.lit .lg,.k.lit .xl,.k.lit .xs { color:#fff !important; }
+.k.lit span { color:#fff !important; }
 
 .kb-title {
   flex: 1;
@@ -308,7 +309,7 @@ body::after {
   width: 100%;
   min-width: 0;
   padding: 20px 20px 0 20px;
-  animation: fadeUp 0.6s 0.45s ease both;
+  animation: fadeUp 0.3s 0.1s ease both;
 }
 
 .big-card {
@@ -318,7 +319,7 @@ body::after {
   overflow: visible;
   box-shadow: 0 4px 32px rgba(28,69,135,0.08);
   opacity: 0;
-  animation: fadeUp 0.5s 0.3s ease both;
+  animation: fadeUp 0.3s 0.15s ease both;
   direction: rtl;
 }
 .big-card::before {
@@ -478,8 +479,8 @@ body::after {
 }
 .footer::before,.footer::after { content:''; display:block; height:1px; width:50px; background:linear-gradient(90deg,transparent,var(--border2)); }
 
-@keyframes fadeDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:none} }
-@keyframes fadeUp   { from{opacity:0;transform:translateY(18px)}  to{opacity:1;transform:none} }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:none} }
+@keyframes fadeUp   { from{opacity:0;transform:translateY(10px)}  to{opacity:1;transform:none} }
 @keyframes expandX  { from{width:0;opacity:0} to{width:80px;opacity:1} }
 
 ::-webkit-scrollbar { width:5px; height:5px; }
@@ -602,7 +603,28 @@ const enterEl=el('div','k mod');
 enterEl.style.cssText=`width:65px;height:${U*2+G}px;margin-left:-8px;
   clip-path:polygon(0% 0%,100% 0%,100% 100%,20.5% 100%,20.5% 47.6%,0% 47.6%);
   display:flex;align-items:center;justify-content:center;flex-direction:column;flex-shrink:0;`;
-enterEl.innerHTML=`<span style="font-size:15px;font-weight:700;color:#1c4587;">↵</span><span style="font-size:8px;font-weight:600;color:#1c4587;">Enter</span>`;
+enterEl.innerHTML=`<span class="enter-arrow" style="font-size:15px;font-weight:700;color:#1c4587;">↵</span><span class="enter-lbl" style="font-size:8px;font-weight:600;color:#1c4587;">Enter</span>`;
+
+// Override lit for Enter manually since clip-path cuts glow
+const origAdd = enterEl.classList.add.bind(enterEl.classList);
+const origRemove = enterEl.classList.remove.bind(enterEl.classList);
+enterEl._litOverride = function(on){
+  if(on){
+    enterEl.style.background='#1c4587';
+    enterEl.style.borderColor='#1c4587';
+    enterEl.style.borderBottomColor='#0d2648';
+    enterEl.style.borderBottomWidth='1px';
+    enterEl.style.transform='translateY(2px)';
+    enterEl.querySelectorAll('span').forEach(s=>s.style.color='#fff');
+  } else {
+    enterEl.style.background='';
+    enterEl.style.borderColor='';
+    enterEl.style.borderBottomColor='';
+    enterEl.style.borderBottomWidth='';
+    enterEl.style.transform='';
+    enterEl.querySelectorAll('span').forEach(s=>s.style.color='#1c4587');
+  }
+};
 keyMap['Enter']=enterEl;
 rows23.appendChild(enterEl);
 
@@ -769,8 +791,16 @@ shortcuts.forEach((cat,ci)=>{
       ? `<div class="desc"><span class="desc-inner">${descContent}</span></div>`
       : `<div class="desc">${descContent}</div>`;
     div.innerHTML=`${descHtml}<span class="en-tag">${item.en}</span><div class="divider"></div><div class="keys-combo">${buildKeyBadge(item.keysText)}</div>`;
-    div.addEventListener('mouseenter',()=>item.codes.forEach(c=>keyMap[c]?.classList.add('lit')));
-    div.addEventListener('mouseleave',()=>item.codes.forEach(c=>keyMap[c]?.classList.remove('lit')));
+    div.addEventListener('mouseenter',()=>item.codes.forEach(c=>{
+      const k=keyMap[c];
+      if(!k) return;
+      if(k._litOverride) k._litOverride(true); else k.classList.add('lit');
+    }));
+    div.addEventListener('mouseleave',()=>item.codes.forEach(c=>{
+      const k=keyMap[c];
+      if(!k) return;
+      if(k._litOverride) k._litOverride(false); else k.classList.remove('lit');
+    }));
     wrapper.appendChild(div);
   });
   section.appendChild(wrapper);
@@ -778,12 +808,22 @@ shortcuts.forEach((cat,ci)=>{
 });
 
 window.addEventListener('keydown',e=>{
-  keyMap[e.code]?.classList.add('lit');
+  const k = keyMap[e.code];
+  if(k){
+    if(k._litOverride) k._litOverride(true);
+    else k.classList.add('lit');
+  }
   [['led0','NumLock'],['led1','CapsLock'],['led2','ScrollLock']].forEach(([id,mod])=>{
     document.getElementById(id)?.classList.toggle('on',e.getModifierState(mod));
   });
 });
-window.addEventListener('keyup',e=>{keyMap[e.code]?.classList.remove('lit');});
+window.addEventListener('keyup',e=>{
+  const k = keyMap[e.code];
+  if(k){
+    if(k._litOverride) k._litOverride(false);
+    else k.classList.remove('lit');
+  }
+});
 
 function scaleKeyboard(){
   const shell = document.getElementById('shell');
