@@ -50,73 +50,127 @@ body::after {
   z-index:100;
 }
 
-.header {
-  position:relative; z-index:10;
-  width:100%; padding: 56px 40px 36px;
-  display:flex; flex-direction:column; align-items:center;
-  text-align:center;
-}
-
-.header-eyebrow {
-  font-family:'Cairo', sans-serif;
-  font-size:0.95rem; letter-spacing:3px;
-  color: var(--blue); margin-bottom:14px;
-  font-weight: 300;
-  display: flex; align-items: center; gap: 12px;
-  animation: fadeDown 0.5s ease both;
-}
-.header-eyebrow::before,
-.header-eyebrow::after {
-  content:'';
-  display:block; width:40px; height:1px;
-  background: linear-gradient(90deg, transparent, var(--blue));
-}
-.header-eyebrow::after {
-  background: linear-gradient(90deg, var(--blue), transparent);
-}
-
-.header h1 {
-  font-family:'Bebas Neue', sans-serif;
-  font-size: 21px;
-  font-weight:400; letter-spacing:8px; line-height:0.9;
-  color: var(--blue);
-  animation: fadeDown 0.6s 0.08s ease both;
-}
-
-.header h1 span {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--blue);
-}
-
-.header-sub {
-  font-size:0.82rem; color:var(--text-dimmer);
-  letter-spacing:0.5px; margin-top:14px;
-  animation: fadeDown 0.6s 0.16s ease both;
-}
-
-.header-line {
-  width:80px; height:2px; margin-top:22px;
-  background: linear-gradient(90deg, transparent, var(--blue), transparent);
-  animation: expandX 0.7s 0.3s ease both;
-}
-
+/* ── KEYBOARD SECTION (3 columns: left info | keyboard | right info) ── */
 .keyboard-section {
   position: sticky;
   top: 0;
   z-index: 50;
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 8px 0;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 20px;
   animation: fadeUp 0.6s 0.3s ease both;
-  background: var(--bg);
-  box-shadow: 0 4px 16px rgba(28,69,135,0.08);
+  background: linear-gradient(135deg, #1c4587 0%, #1a3d7a 60%, #163268 100%);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
   overflow: hidden;
+  gap: 16px;
+}
+
+/* subtle radial glow */
+.keyboard-section::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+/* LEFT PANEL */
+.kb-side-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+  direction: ltr;
+  min-width: 0;
+  padding-left: 8px;
+}
+.ksl-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.6rem;
+  letter-spacing: 5px;
+  color: #ffffff;
+  line-height: 1;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+.ksl-divider {
+  width: 36px;
+  height: 1.5px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+}
+.ksl-title {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+.ksl-sub {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.5px;
+}
+
+/* RIGHT PANEL */
+.kb-side-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  direction: ltr;
+  min-width: 0;
+  padding-right: 8px;
+}
+.ksr-clock {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.ksr-company {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ksr-btn {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.ksr-btn:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .kb-shell {
-  background: var(--surface);
+  /* Gradient background: white top-left → light blue bottom-right */
+  background: linear-gradient(135deg, #ffffff 0%, #e8eef8 40%, #c5d3ec 75%, #8eaad8 100%);
   border: 1px solid var(--border2);
   border-bottom: 4px solid rgba(28,69,135,0.25);
   border-radius: 18px;
@@ -131,6 +185,32 @@ body::after {
   transform: scale(1);
   transform-origin: top center;
   margin-bottom: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* METI watermark text behind the keyboard */
+.kb-shell::before {
+  content: 'METI';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 140px;
+  letter-spacing: 24px;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(28, 69, 135, 0.13);
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* make all direct children sit above the watermark */
+.kb-shell > * {
+  position: relative;
+  z-index: 1;
 }
 
 .kb-top-row  { display:flex; gap:4px; align-items:flex-start; justify-content:space-between; width:100%; }
@@ -143,29 +223,30 @@ body::after {
   align-items:flex-start; justify-content:flex-start;
   padding:4px 5px 3px;
   width:40px; height:40px;
-  background: linear-gradient(175deg, #ffffff 0%, #f4f7fd 100%);
-  border: 1px solid rgba(28,69,135,0.15);
-  border-bottom: 3px solid rgba(28,69,135,0.2);
+  background: linear-gradient(175deg, rgba(255,255,255,0.92) 0%, rgba(230,238,250,0.88) 100%);
+  border: 1px solid rgba(28,69,135,0.2);
+  border-bottom: 3px solid rgba(28,69,135,0.28);
   border-radius: 6px;
-  box-shadow: inset 0 1px 0 #fff, 0 1px 3px rgba(28,69,135,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 3px rgba(28,69,135,0.12);
   font-family:'JetBrains Mono', monospace;
   font-size:10px; color:#1c4587;
   user-select:none; flex-shrink:0; cursor:default;
   transition: all 0.09s ease;
   line-height:1.2; position:relative; overflow:hidden;
+  backdrop-filter: blur(4px);
 }
 .k.gk { width:auto !important; height:auto !important; flex-shrink:1; }
+
+.k.mod {
+  background: linear-gradient(175deg, #f0f4fc 0%, #e6ecfa 100%);
+  border-color: rgba(28,69,135,0.18);
+}
 
 .k:hover:not(.lit) {
   background: linear-gradient(175deg, #e8f0ff 0%, #dde8ff 100%) !important;
   border-color: rgba(28,69,135,0.4) !important;
   border-bottom-color: rgba(28,69,135,0.5) !important;
   cursor:pointer;
-}
-
-.k.mod {
-  background: linear-gradient(175deg, #f0f4fc 0%, #e6ecfa 100%);
-  border-color: rgba(28,69,135,0.18);
 }
 
 .k .top  { font-size:8px;  color:var(--blue-lt); display:block; line-height:1.1; }
@@ -223,21 +304,6 @@ body::after {
   min-width: 0;
   padding: 20px 20px 0 20px;
   animation: fadeUp 0.6s 0.45s ease both;
-}
-
-.main-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  width: 100%;
-  max-width: 1800px;
-  padding: 0 16px;
-  direction: rtl;
-}
-
-@media(max-width:1100px){
-  .shortcuts-section { padding: 0 16px; width:100%; }
 }
 
 .big-card {
@@ -380,13 +446,9 @@ body::after {
 }
 .shortcut-item:hover .key-badge { background:var(--blue-xl); border-color:rgba(28,69,135,0.35); }
 
-.en-word {
-  color: #1c4587;
-  font-weight: 900;
-}
+.en-word { color: #1c4587; font-weight: 900; }
 .plus-sign { color:var(--text-dimmer); font-size:0.8rem; font-family:'Cairo',sans-serif; }
 .divider   { width:1px; height:18px; background:var(--border); flex-shrink:0; }
-.shortcut-item:hover .desc { color:var(--text); }
 
 .watermark {
   position: fixed;
@@ -402,6 +464,8 @@ body::after {
   z-index: 999;
   white-space: nowrap;
 }
+
+.footer {
   position:relative; z-index:10; margin-top:56px;
   font-family:'JetBrains Mono',monospace;
   font-size:0.62rem; color:var(--text-dimmer);
@@ -426,21 +490,35 @@ body::after {
 </head>
 <body>
 
-
+<!-- KEYBOARD SECTION: left info | keyboard | right info -->
 <div class="keyboard-section">
+
+  <!-- LEFT: clock + Tasks Tracker -->
+  <div class="kb-side-left">
+    <div class="ksr-clock" id="clock"></div>
+    <div class="ksr-company">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Micro Engineering Tech Inc.
+    </div>
+    <button class="ksr-btn">Tasks Tracker</button>
+  </div>
   <div class="kb-shell" id="shell"></div>
+
+  <!-- RIGHT: METI + company -->
+  <div class="kb-side-right">
+    <div class="ksl-logo">METI</div>
+    <div class="ksl-divider" style="align-self:flex-end;"></div>
+    <div class="ksl-title">Micro Engineering</div>
+    <div class="ksl-sub">Labeling Operations · Internal System</div>
+  </div>
+
 </div>
 
 <div class="shortcuts-section">
   <div class="big-card" id="list"></div>
 </div>
-</div>
-
-
 
 <div class="footer">— HOVER TO HIGHLIGHT — KEYBOARD INTERACTIVE —</div>
-
-
 
 <script>
 const keyMap={};
@@ -675,11 +753,9 @@ function buildKeyBadge(keyText){
 const listEl=document.getElementById('list');
 shortcuts.forEach((cat,ci)=>{
   const section=el('div','cat-section');
-
   const label=el('div','cat-label'+(cat.catImportant?' gold':''));
   label.innerHTML=`<div class="cat-name">${cat.cat}</div>${cat.catBadge?`<span class="cat-badge">${cat.catBadge}</span>`:''}`;
   section.appendChild(label);
-
   const wrapper=el('div','items-wrapper');
   cat.items.forEach(item=>{
     const div=el('div','shortcut-item'+(item.important?' important':''));
@@ -714,6 +790,14 @@ function scaleKeyboard(){
   shell.style.transformOrigin = 'top center';
   shell.style.marginBottom = `-${Math.round(shell.scrollHeight * (1 - scale))}px`;
 }
+// Clock
+function updateClock(){
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true});
+}
+updateClock();
+setInterval(updateClock, 1000);
+
 scaleKeyboard();
 window.addEventListener('resize', scaleKeyboard);
 </script>
