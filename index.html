@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shortcuts Key</title>
+<title>اختصارات لوحة المفاتيح</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -80,12 +80,13 @@ body::after {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   direction: ltr;
   min-width: 0;
-  padding-left: 8px;
+  padding: 8px 16px;
+  text-align: center;
 }
 .ksl-logo {
   font-family: 'Bebas Neue', sans-serif;
@@ -100,6 +101,7 @@ body::after {
   height: 1.5px;
   background: rgba(255,255,255,0.3);
   border-radius: 2px;
+  margin: 2px auto;
 }
 .ksl-title {
   font-family: 'Cairo', sans-serif;
@@ -122,19 +124,21 @@ body::after {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   gap: 8px;
   direction: ltr;
   min-width: 0;
-  padding-right: 8px;
+  padding: 8px 16px;
+  text-align: center;
 }
 .ksr-clock {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.68rem;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.55);
   letter-spacing: 1px;
   white-space: nowrap;
+  text-align: center;
 }
 .ksr-company {
   font-family: 'Cairo', sans-serif;
@@ -145,6 +149,7 @@ body::after {
   text-transform: uppercase;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
 }
 .ksr-btn {
